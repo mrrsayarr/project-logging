@@ -1,9 +1,10 @@
 import win32evtlog
-
 from event_descriptions import get_event_descriptions  # Security Event ID açıklamalarını getiriyor
+import time
+import socket
 
-# Maksimum log sayısı ve her log tipinden alınacak maksimum kayıt sayısı
-MAX_TOTAL_LOGS = 1000
+hostname = socket.gethostname()
+MAX_TOTAL_LOGS = 1000 # Maksimum log sayısı ve her log tipinden alınacak maksimum kayıt sayısı
 MAX_LOG_COUNT_PER_TYPE = 1000
 
 def get_event_logs(log_type):
@@ -54,10 +55,10 @@ def get_all_event_logs():
 def format_log_event(event):
     event_id = event.EventID  # Olay ID'sini al
     event_descriptions = get_event_descriptions()  # Açıklamaları almak için fonksiyonu çağır
-    description = event_descriptions.get(event_id, "Açıklama bulunamadı")  # Sözlükten açıklamayı al, yoksa varsayılan bir değer dön
+    description = event_descriptions.get(event_id, "Açıklama bulunamadı / Not Found Description")  # Sözlükten açıklamayı al, yoksa varsayılan bir değer dön
     return (f"Event ID: {event_id}, "
             f"Time: {event.TimeGenerated}, "
-            f"Source: {event.SourceName},\n "
+            f"Source: {event.SourceName}, "
             f"Description: {description}"
             )
 
@@ -65,16 +66,17 @@ def display_logs(event_logs):
     for log in event_logs:
         log_name = log['LogName']
         log_type = log['LogType']
-        print(f"--- {log_name} ({log_type}) ---")
+        # print(f"--- {log_name} ({log_type}) ---") # Log Tipini başlık olarak yazdırur
 
         for event in log['Events']:
             log_text = format_log_event(event)
             print(log_text)
-            print("-" * 10)  # Log satırı sonrası çizgi ekle
+            print("-" * 1)  # Log satırı sonrası çizgi ekle
 
 def refresh_logs():
-    event_logs = get_all_event_logs()
-    display_logs(event_logs)
+    while True:
+        event_logs = get_all_event_logs()
+        display_logs(event_logs)
+        time.sleep(5)
 
-# Logları güncelleyerek başlayalım
-refresh_logs()
+refresh_logs() # Logları güncelle
