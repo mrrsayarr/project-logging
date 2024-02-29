@@ -1,3 +1,6 @@
+import admin
+admin.run_as_admin()
+
 import win32evtlog
 from event_descriptions import get_event_descriptions  # Security Event ID açıklamalarını getiriyor
 import time
@@ -71,12 +74,12 @@ def display_logs(event_logs):
         for event in log['Events']:
             log_text = format_log_event(event)
             print(log_text)
-            print("-" * 1)  # Log satırı sonrası çizgi ekle
+            # print("-" * 1)  # Log satırı sonrası çizgi ekle
 
 def refresh_logs():
     while True:
         event_logs = get_all_event_logs()
         display_logs(event_logs)
-        time.sleep(5)
+        time.sleep(30)
 
 refresh_logs() # Logları güncelle
