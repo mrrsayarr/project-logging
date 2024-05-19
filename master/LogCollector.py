@@ -1,8 +1,30 @@
-# LEVEL AÇIKLAMALARI İLE BERABER YAPIYOR
+
+"""
+Level açıklamaları ile yapan fonksiyonları eklendi
+Artık PredictValue değerini yazıyor
+"""
+
+import os
+import sqlite3
+import traceback
 
 import win32evtlog
 import json
 import time
+from RegressionFunc import load_and_predict
+
+def classify_event_id(event_id):
+    return load_and_predict(event_id)
+
+def log_error_to_db(error_message):
+    db = sqlite3.connect('Database.db')
+    cursor = db.cursor()
+    cursor.execute('''
+        INSERT INTO error_logs (ErrorMessage)
+        VALUES (?)
+    ''', (error_message,))
+    db.commit()
+    db.close()
 
 def get_security_event_logs():
     logs = []
@@ -11,7 +33,6 @@ def get_security_event_logs():
     total_records = win32evtlog.GetNumberOfEventLogRecords(handle)
     events = win32evtlog.ReadEventLog(handle, flags, 0)
     for event in events:
-        # Level seviyesine göre belirli başlıklar ekle
         level_titles = {
             0: "Bilgi",
             1: "Denetim Basarisi",
@@ -23,14 +44,14 @@ def get_security_event_logs():
             7: "Basarili Denetim",
             8: "Basarisiz Denetim"
         }
+        predicted_value = classify_event_id(event.EventID)
         log_data = {
-            "EventID": event.EventID,
+            "EventID": int(event.EventID),  # int64 -> int dönüşümü
+            "PredictedValue": int(predicted_value),  # int64 -> int dönüşümü
             "SourceName": event.SourceName,
-            "Level": level_titles.get(event.EventType, "Bilinmeyen"),  # Level seviyesine karşılık gelen başlık
-            # "Keywords": event.EventID,  # Keywords yerine EventID kullanıldı
+            "Status": level_titles.get(event.EventType, "Bilinmeyen"),  # Level seviyesine karşılık gelen başlık
             "Channel": "Security",
-            "Message": event.StringInserts,
-            # Diğer özellikler buraya eklenebilir
+            "Message": event.StringInserts
         }
         logs.append(log_data)
     win32evtlog.CloseEventLog(handle)
@@ -43,16 +64,37 @@ def save_logs_to_json(logs, filename):
             f.write("\n")
     print(f"Event logs appended to {filename}")
 
+def save_logs_to_db(logs):
+    db = sqlite3.connect('Database.db')
+    cursor = db.cursor()
+    for log in logs:
+        cursor.execute('''
+            INSERT INTO events (EventID, PredictedValue, SourceName, Level, Channel, Message)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (log["EventID"], log["PredictedValue"], log["SourceName"], log["Status"], log["Channel"], str(log["Message"])))
+    db.commit()
+    db.close()
+
+def check_and_reset_file_size(file_path, max_size_mb=5):
+    file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+    if file_size_mb > max_size_mb:
+        open(file_path, 'w').close()
+        print(f"{file_path} dosyası {max_size_mb} MB boyutunu aştığı için sıfırlandı.")
+    else:
+        pass
+    print(f"{file_path} dosyasının boyutu {file_size_mb} MB ve {max_size_mb} MB sınırından küçük.")
+
 def main():
     while True:
-        # Security event loglarını al
-        security_logs = get_security_event_logs()
-
-        # JSON formatına dönüştür ve dosyaya kaydet
-        save_logs_to_json(security_logs, "Logs/OUTPUT.json")
-
-        # 60 saniyede bir yenile
-        time.sleep(60)
+        try:
+            security_logs = get_security_event_logs()
+            save_logs_to_json(security_logs, "Logs/OUTPUT.json")
+            save_logs_to_db(security_logs)
+            check_and_reset_file_size("Logs/OUTPUT.json", max_size_mb=5)
+            time.sleep(60)
+        except Exception as e:
+            error_message = traceback.format_exc()
+            log_error_to_db(error_message)
 
 if __name__ == "__main__":
     main()

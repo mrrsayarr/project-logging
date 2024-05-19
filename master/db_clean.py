@@ -1,4 +1,9 @@
 
+
+"""
+Manuel Eski Logları Silme: python db_clean.py
+"""
+
 import sqlite3
 import time
 
@@ -26,4 +31,4 @@ def delete_old_logs(db_path, days_old=30):
 
 # Eski logları silme fonksiyonunu çalıştır (örnek kullanım)
 if __name__ == "__main__":
-    delete_old_logs('logs.db', days_old=30)
+    delete_old_logs('Database.db', days_old=30)

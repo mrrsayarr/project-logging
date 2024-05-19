@@ -1,3 +1,8 @@
+
+"""
+Database oluşturma ve tabloları oluşturma
+"""
+
 import sqlite3
 
 def setup_database():
