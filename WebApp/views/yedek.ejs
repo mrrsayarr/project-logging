@@ -1,0 +1,298 @@
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <table class="table table-responsive">
+                  <thead>
+                    <tr>
+                      <th scope="col">EventID</th>
+                      <th scope="col">PredictedValue</th>
+                      <th scope="col">Event Description</th>
+                      <!-- <th scope="col">Status</th> -->
+                      <th scope="col">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% events.forEach(function(event, index) { %>
+                    <tr>
+                      <td><%= event.EventID %></td>
+                      <td><%= event.PredictedValue %></td>
+                      <td><%= event.Description %></td>
+                      <!-- <td><%= event.Level %></td> -->
+                      <!-- <td><%= event.Channel %></td> -->
+                      <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                      </td>
+                    </tr>
+              
+                    <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">  <div class="modal-content bg-secondary text-white">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            
+                            <div style="overflow: auto; max-height: 400px;">  
+                                <p>EventID: <%= event.EventID %></p>
+                                <p>PredictedValue: <%= event.PredictedValue %></p>
+                                <p>Description: <%= event.Description %></p>
+                                <p>SourceName: <%= event.SourceName %></p>
+                                <p>Status: <%= event.Level %></p>
+                                <p>Channel: <%= event.Channel %></p>
+                                <p>Message: <%= event.Message %></p>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }); %>
+                  </tbody>
+                </table>
+            </div>
+
+
+
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ad</th>
+                <th scope="col">Soyad</th>
+                <th scope="col">E-posta</th>
+                <th scope="col">Ülke</th>
+                <th scope="col">Üyelik Durumu</th>
+                <th scope="col">Detaylar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+                <td>USA</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-1">Details</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jane</td>
+                <td>Doe</td>
+                <td>jane@example.com</td>
+                <td>Canada</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-2">Details</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Michael</td>
+                <td>Smith</td>
+                <td>michael@example.com</td>
+                <td>UK</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-3">Details</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Modal -->
+    <div class="modal fade" id="details-1" tabindex="-1" aria-labelledby="details-1-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title" id="details-1-label">Details for John Doe</h5>
+                    <!-- Add your details content here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="details-2" tabindex="-1" aria-labelledby="details-2-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your details content here -->
+                    <h5 class="modal-title" id="details-2-label">Details for Jane Doe</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="details-3" tabindex="-1" aria-labelledby="details-3-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your details content here -->
+                    <h5 class="modal-title" id="details-3-label">Details for Michael Smith</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+            <!-- <% events.forEach(function(event) { %>
+                <p><b>Event Details</b></p>
+                <ul>
+                  <li>EventID: <%= event.EventID %></li>
+                  <li>PredictedValue: <%= event.PredictedValue %></li>
+                  <li>SourceName: <%= event.SourceName %></li>
+                  <li>Status: <%= event.Status %></li>
+                  <li>Channel: <%= event.Channel %></li>
+                  <li>Message: <%= event.Message %></li>
+                </ul>
+                <% }); %> -->
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ad</th>
+                <th scope="col">Soyad</th>
+                <th scope="col">E-posta</th>
+                <th scope="col">Ülke</th>
+                <th scope="col">Üyelik Durumu</th>
+                <th scope="col">Detaylar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+                <td>USA</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-1">Details</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jane</td>
+                <td>Doe</td>
+                <td>jane@example.com</td>
+                <td>Canada</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-2">Details</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Michael</td>
+                <td>Smith</td>
+                <td>michael@example.com</td>
+                <td>UK</td>
+                <td>Member</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#details-3">Details</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Modal -->
+    <div class="modal fade" id="details-1" tabindex="-1" aria-labelledby="details-1-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title" id="details-1-label">Details for John Doe</h5>
+                    <!-- Add your details content here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="details-2" tabindex="-1" aria-labelledby="details-2-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your details content here -->
+                    <h5 class="modal-title" id="details-2-label">Details for Jane Doe</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="details-3" tabindex="-1" aria-labelledby="details-3-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-secondary text-white">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your details content here -->
+                    <h5 class="modal-title" id="details-3-label">Details for Michael Smith</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
