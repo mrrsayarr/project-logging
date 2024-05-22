@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DarkBoard - Network Controller</title>
+    <title>DarkBoard - Cyber News </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -30,7 +30,20 @@
 
     <!-- Template Stylesheet -->
     <link href="../public/css/style.css" rel="stylesheet">
+    <style>
+    .bg-custom {
+        background-color: #191c24 !important;
+    }
 
+    .rounded-corners {
+        border-radius: 10px;
+    }
+
+    .small-image {
+        width: 100%;
+        height: auto;
+    }
+    </style>
 </head>
 
 <body>
@@ -72,9 +85,9 @@
                         </div>
                     </div> -->
                     <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
-                    <a href="/network" class="nav-item nav-link active"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
+                    <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
-                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
+                    <a href="/filewatcher" class="nav-item nav-link active"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -88,7 +101,7 @@
             </nav>
         </div>
         <!-- Sidebar End -->
-
+        
 
         <!-- Content Start -->
         <div class="content">
@@ -113,75 +126,74 @@
             </nav>
             <!-- Navbar End -->
             
-
-            <!-- Table Start -->
-            <!-- Table Start -->
-            <div class="container-fluid pt-4 px-4">
-                <table class="table table-responsive">
-                  <thead>
-                    <tr>
-                      <th scope="col">PID</th>
-                      <th scope="col">Process</th>
-                      <th scope="col">Protocol</th>
-                      <th scope="col">StartTime</th>
-                      <th scope="col">CommunicationProtocol</th>
-                      <th scope="col">LocalIP</th>
-                      <th scope="col">LocalPort</th>
-                      <th scope="col">RemoteIP</th>
-                      <th scope="col">RemotePort</th>
-                      <th scope="col">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% IpLogs.sort((a, b) => {
-                      let dateA = new Date(a.StartTime), dateB = new Date(b.StartTime);
-                      return dateB - dateA;
-                    }); %>
-                    <% IpLogs.forEach(function(log, index) { %>
-                    <tr>
-                      <td><%= log.PID %></td>
-                      <td><%= log.Process %></td>
-                      <td><%= log.Protocol %></td>
-                      <td><%= log.StartTime %></td>
-                      <td><%= log.CommunicationProtocol %></td>
-                      <td><%= log.LocalIP %></td>
-                      <td><%= log.LocalPort %></td>
-                      <td><%= log.RemoteIP %></td>
-                      <td><%= log.RemotePort %></td>
-                      <td>
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
-                      </td>
-                    </tr>
-                
-                    <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content bg-secondary text-white">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="details-<%= index + 1 %>-label">Process Details</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div style="overflow: auto; max-height: 400px;">  
-                              <p>PID: <%= log.PID %></p>
-                              <p>Process: <%= log.Process %></p>
-                              <p>Protocol: <%= log.Protocol %></p>
-                              <p>StartTime: <%= log.StartTime %></p>
-                              <p>CommunicationProtocol: <%= log.CommunicationProtocol %></p>
-                              <p>LocalIP: <%= log.LocalIP %></p>
-                              <p>LocalPort: <%= log.LocalPort %></p>
-                              <p>RemoteIP: <%= log.RemoteIP %></p>
-                              <p>RemotePort: <%= log.RemotePort %></p>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                          </div>
+            <!-- Card Start -->
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <form action="/update-path" method="POST">
+                        <div class="mb-3">
+                          <label for="newPath" class="form-label"></label>
+                          <input typKe="text" class="form-control border-success" id="newPath" name="newPath" value="<%= path %>" readonly>
+                          <input type="text" class="form-control border-success" id="newPathInput" name="newPathInput" placeholder="Enter your directory path" required>
+                          <small class="form-text text-muted">Example: C:\Users\muham\Desktop\Project\WebApp</small>
                         </div>
-                      </div>
+                        <button type="submit" class="btn btn-primary">Yolu Güncelle</button>
+                    </form>
+
+
+                    <!-- Table Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">Event Type</th>
+                                <th scope="col">File Path</th>
+                                <th scope="col">Timestamp</th>
+                                <th scope="col">Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% 
+                                file_logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                                file_logs.forEach(function(filelog, index) { 
+                                var date = new Date(filelog.timestamp);
+                                var formattedTime = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            %>
+                            <tr>
+                                <td><%= filelog.event_type %></td>
+                                <td><%= filelog.file_path %></td>
+                                <td><%= formattedTime %></td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                                </td>
+                            </tr>
+                        
+                            <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                <div class="modal-content bg-secondary text-white">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="details-<%= index + 1 %>-label">File Details</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div style="overflow: auto; max-height: 400px;">  
+                                        <p>Event Type: <%= filelog.event_type %></p>
+                                        <p>File Path: <%= filelog.file_path %></p>
+                                        <p>Timestamp: <%= formattedTime %></p>
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                            </tbody>
+                        </table>
                     </div>
-                    <% }); %>
-                  </tbody>
-                </table>
+                    <!-- Table End -->
+
+                </div>
             </div>
 
             <!-- For Modal -->

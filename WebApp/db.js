@@ -32,15 +32,24 @@ function readData() {
     });
 }
 
-// EVENTLOGS İÇİN
-// ÇALIŞIYOR
 // const query = `SELECT * FROM ${tableName} ORDER BY EventID ASC`; // VERİLERİ SIRALAMAK İÇİN
 const readDataFromTable = function(tableName, callback) {
-    // SQL sorgunuzu burada çalıştırın
-    const query = `SELECT ${tableName}.*, eventdescription.Description 
-        FROM ${tableName} 
-        JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
-        ORDER BY ${tableName}.PredictedValue ASC`;
+    if (typeof callback !== 'function') {
+        throw new Error('callback must be a function');
+    }
+
+    let query;
+    if (tableName === 'events') {
+        // 'events' tablosu için JOIN işlemi uygulanır
+        query = `SELECT ${tableName}.*, eventdescription.Description 
+            FROM ${tableName} 
+            JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
+            ORDER BY ${tableName}.PredictedValue ASC`;
+    } else {
+        // Diğer tablolar için basit bir SELECT sorgusu kullanılır
+        query = `SELECT * FROM ${tableName}`;
+    }
+
     db.all(query, function(error, results) {
         if (error) {
             console.error('Database error:', error);
@@ -50,6 +59,23 @@ const readDataFromTable = function(tableName, callback) {
         }
     });
 };
+
+
+// const readDataFromTable = function(tableName, callback) {
+//     // SQL sorgunuzu burada çalıştırın
+//     const query = `SELECT ${tableName}.*, eventdescription.Description 
+//         FROM ${tableName} 
+//         JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
+//         ORDER BY ${tableName}.PredictedValue ASC`;
+//     db.all(query, function(error, results) {
+//         if (error) {
+//             console.error('Database error:', error);
+//             callback(error, null);
+//         } else {
+//             callback(null, results);
+//         }
+//     });
+// };
 
 // IPLOGS VE DİĞER TABLOLAR İÇİN
 function readDataFromAnotherTable(tableName) {
@@ -62,6 +88,8 @@ function readDataFromAnotherTable(tableName) {
         });
     });
 }
+
+// -----------------------------------------------------------------------------
 
 // Veri Ekleme
 function insertDataIntoTable(tableName, data) {
@@ -100,7 +128,7 @@ function updateDataInTable(tableName, updates, condition) {
 
 // console.log(readData()); // Konsoldaki çıktıyı görmek için
 
-// console.log(readDataFromTable('events'));
+// console.log(readDataFromAnotherTable('IpLogs'));
 
 module.exports = {
     db,

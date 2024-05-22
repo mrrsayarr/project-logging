@@ -71,10 +71,10 @@
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div> -->
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
+                    <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
                     <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Eventlog</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -112,75 +112,79 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-            
 
             <!-- Table Start -->
             <div class="container-fluid pt-4 px-4">
                 <table class="table table-responsive">
-                  <thead>
-                    <tr>
-                      <th scope="col">EventID</th>
-                      <th scope="col">PredictedValue</th>
-                      <th scope="col">Event Description</th>
-                      <!-- <th scope="col">Status</th> -->
-                      <th scope="col">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                    <thead>
+                      <tr>
+                        <th scope="col">EventID</th>
+                        <th scope="col">PredictedValue</th>
+                        <th scope="col">Event Description</th>
+                        <!-- <th scope="col">Status</th> -->
+                        <th scope="col">Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                     <% events.forEach(function(event, index) { %>
                     <tr>
-                      <td><%= event.EventID %></td>
-                      <td><%= event.PredictedValue %></td>
-                      <td><%= event.Description %></td>
-                      <!-- <td><%= event.Level %></td> -->
-                      <!-- <td><%= event.Channel %></td> -->
-                      <td>
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
-                      </td>
+                        <td><%= event.EventID %></td>
+                        <td>
+                          <%= event.PredictedValue %>
+                          <% if (event.PredictedValue == 0) { %>
+                            <span class="badge bg-success">Safe</span>
+                          <% } else if (event.PredictedValue <= 2) { %>
+                            <span class="badge bg-warning">Warning</span>
+                          <% } else { %>
+                            <span class="badge bg-danger">Danger</span>
+                          <% } %>
+                        </td>
+                        <td><%= event.Description %></td>
+                        <!-- <td><%= event.Level %></td> -->
+                        <!-- <td><%= event.Channel %></td> -->
+                        <td>
+                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                        </td>
                     </tr>
-              
+                  
                     <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">  <div class="modal-content bg-secondary text-white">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            
-                            <div style="overflow: auto; max-height: 400px;">  
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content bg-secondary text-white">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
+                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div style="overflow: auto; max-height: 400px;">  
                                 <p>EventID: <%= event.EventID %></p>
                                 <p>PredictedValue: <%= event.PredictedValue %></p>
                                 <p>Description: <%= event.Description %></p>
                                 <p>SourceName: <%= event.SourceName %></p>
                                 <p>Status: <%= event.Level %></p>
                                 <p>Channel: <%= event.Channel %></p>
-                                <p>Message: <%= event.Message %></p>
+                                <!-- <p>Message: <%= event.Message %></p> -->
                                 <p>Message:
-                                    <pre>
-                                      <% 
-                                        try {
-                                          var messageObj = JSON.parse(event.Message);
-                                          // If the above line does not throw an error, event.Message is a valid JSON string.
-                                          // So, we convert this string to a JSON object and print this object in a nice format.
-                                          %><%= JSON.stringify(messageObj, null, 2) %><%
-                                        } catch (error) {
-                                          // If an error is thrown, event.Message is not a valid JSON string.
-                                          // So, we print this string as it is.
-                                          %><%= event.Message %><%
-                                        }
-                                      %>
-                                    </pre>
+                                  <pre>
+                                    <% 
+                                      try {
+                                        var messageObj = JSON.parse(event.Message);
+                                        %><%= JSON.stringify(messageObj, null, 2) %><%
+                                      } catch (error) {
+                                        %><%= event.Message %><%
+                                      }
+                                    %>
+                                  </pre>
                                 </p>
+                              </div>
                             </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <% }); %>
-                  </tbody>
+                      <% }); %>
+                    </tbody>
                 </table>
             </div>
               
