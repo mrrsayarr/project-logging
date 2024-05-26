@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>DarkBoard - Virus </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../public/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../public/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../public/css/style.css" rel="stylesheet">
+    <style>
+        .bg-custom {
+            background-color: #191c24 !important;
+        }
+
+        .rounded-corners {
+            border-radius: 10px;
+        }
+
+        .small-image {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-secondary navbar-dark">
+                <a href="/" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
+                </a>
+                <!-- <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">Jhon Doe</h6>
+                        <span>Admin</span>
+                    </div>
+                </div> -->
+                <div class="navbar-nav w-100">
+                    <a href="/" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="button.html" class="dropdown-item">Buttons</a>
+                            <a href="typography.html" class="dropdown-item">Typography</a>
+                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                        </div>
+                    </div> -->
+                    <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
+                    <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
+                    <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
+                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File
+                        Watchdog</a>
+                    <a href="/virustotal" class="nav-item nav-link active"><i class="fa fa-envelope me-2"></i>Virus
+                        Total</a>
+
+                    <!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="signin.html" class="dropdown-item">Sign In</a>
+                            <a href="signup.html" class="dropdown-item">Sign Up</a>
+                            <a href="404.html" class="dropdown-item">404 Error</a>
+                            <a href="blank.html" class="dropdown-item">Blank Page</a>
+                        </div>
+                    </div> -->
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+                <a href="/" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- Table Start -->
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <!-- Table Start -->
+                        <h1 class="display-4 text-center text-primary my-4">VirusTotal Result</h1>
+
+                        <input type="password" class="form-control border-success m-2" id="apiKey" placeholder="API Key" required>
+                        <input type="text" class="form-control border-success m-2" id="fileHash" placeholder="File Hash">
+                        <button id="submit" class="btn btn-primary m-2">Submit</button>
+                        <button id="clear" class="btn btn-danger m-2">Clear</button>
+
+                        <div id="result"></div>
+
+                        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                // Değerleri localStorage'den al ve inputlara yerleştir
+                                $('#apiKey').val(localStorage.getItem('apiKey'));
+                                $('#fileHash').val(localStorage.getItem('fileHash'));
+
+                                $('#submit').click(function () {
+                                    var apiKey = $('#apiKey').val();
+                                    var fileHash = $('#fileHash').val();
+                                    var url = 'https://www.virustotal.com/api/v3/files/' + fileHash;
+
+                                    // Değerleri localStorage'ye kaydet
+                                    localStorage.setItem('apiKey', apiKey);
+                                    localStorage.setItem('fileHash', fileHash);
+
+                                    $.ajax({
+                                        url: url,
+                                        type: 'GET',
+                                        beforeSend: function (xhr) {
+                                            xhr.setRequestHeader('x-apikey', apiKey);
+                                        },
+                                        success: function (data) {
+                                            $('#result').html(JSON.stringify(data, null, 2));
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            console.log(jqXHR, textStatus, errorThrown);
+                                        }
+                                    });
+                                });
+
+                                // Clear butonuna tıklanınca değerleri localStorage'den sil
+                                $('#clear').click(function () {
+                                    //localStorage.removeItem('apiKey');
+                                    localStorage.removeItem('fileHash');
+                                    //$('#apiKey').val('');
+                                    $('#fileHash').val('');
+                                });
+                            });
+
+                            // Example Hash
+                            // 0001c1409b360fc8e1b6933d20c7bfa42e1f5d7bc1593a5057a96930e0b53488
+
+                            function createTableFromJSON(jsonData) {
+                                let table = '<table>';
+                                for (let key in jsonData) {
+                                    if (Array.isArray(jsonData[key])) {
+                                        for (let i = 0; i < jsonData[key].length; i++) {
+                                            table += '<tr>';
+                                            for (let subKey in jsonData[key][i]) {
+                                                table += `<td>${subKey}</td><td>${jsonData[key][i][subKey]}</td>`;
+                                            }
+                                            table += '</tr>';
+                                        }
+                                    } else if (typeof jsonData[key] === 'object' && jsonData[key] !== null) {
+                                        table += `<tr><td>${key}</td><td>${createTableFromJSON(jsonData[key])}</td></tr>`;
+                                    } else {
+                                        table += `<tr><td>${key}</td><td>${jsonData[key]}</td></tr>`;
+                                    }
+                                }
+                                table += '</table>';
+                                return table;
+                            }
+
+                            $.ajax({
+                                url: 'https://www.virustotal.com/api/v3/files/' + fileHash,
+                                type: 'GET',
+                                beforeSend: function (xhr) {
+                                    xhr.setRequestHeader('x-apikey', apiKey);
+                                },
+                                success: function (data) {
+                                    let tableHTML = createTableFromJSON(data.data.attributes);
+                                    $('#result').html(tableHTML);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR, textStatus, errorThrown);
+                                }
+                            });
+                        </script>
+                        <!-- Table End -->
+                    </div>
+                </div>
+            </div>
+            <!-- Table End -->
+
+            <!-- Footer Start -->
+            <!-- <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque, illo!
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            Lorem ipsum dolor sit amet.
+
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top Button -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/lib/chart/chart.min.js"></script>
+    <script src="../public/lib/easing/easing.min.js"></script>
+    <script src="../public/lib/waypoints/waypoints.min.js"></script>
+    <script src="../public/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../public/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../public/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../public/js/main.js"></script>
+
+    <!-- Gemini -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-sm').click(function () {
+                $(this).closest('tr').next('.collapse').collapse('toggle'); // Toggle the collapse element next to the clicked row
+            });
+        });
+    </script>
+</body>
+
+</html>

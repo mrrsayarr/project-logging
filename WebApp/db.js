@@ -20,17 +20,32 @@ function checkDbConnection() {
     });
 }
 
-// Sadece belirli bir tablodaki verileri çekmek için fonksiyon (Mevcut: events)
-function readData() {
-    db.all("SELECT * FROM events", [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        rows.forEach((row) => {
-            console.log(row);
-        });
+// Son 10 veriyi getir
+function getLastTenEvents(callback) {
+    let sql = `SELECT events.*, eventdescription.Description 
+               FROM events 
+               JOIN eventdescription ON events.EventID = eventdescription.EventID 
+               ORDER BY events.EventID DESC 
+               LIMIT 10`;
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      callback(rows);
     });
 }
+
+// Sadece belirli bir tablodaki verileri çekmek için fonksiyon (Mevcut: events)
+// function readData() {
+//     db.all("SELECT * FROM events", [], (err, rows) => {
+//         if (err) {
+//             throw err;
+//         }
+//         rows.forEach((row) => {
+//             console.log(row);
+//         });
+//     });
+// }
 
 // const query = `SELECT * FROM ${tableName} ORDER BY EventID ASC`; // VERİLERİ SIRALAMAK İÇİN
 const readDataFromTable = function(tableName, callback) {
@@ -61,22 +76,6 @@ const readDataFromTable = function(tableName, callback) {
 };
 
 
-// const readDataFromTable = function(tableName, callback) {
-//     // SQL sorgunuzu burada çalıştırın
-//     const query = `SELECT ${tableName}.*, eventdescription.Description 
-//         FROM ${tableName} 
-//         JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
-//         ORDER BY ${tableName}.PredictedValue ASC`;
-//     db.all(query, function(error, results) {
-//         if (error) {
-//             console.error('Database error:', error);
-//             callback(error, null);
-//         } else {
-//             callback(null, results);
-//         }
-//     });
-// };
-
 // IPLOGS VE DİĞER TABLOLAR İÇİN
 function readDataFromAnotherTable(tableName) {
     db.all(`SELECT * FROM ${tableName}`, [], (err, rows) => {
@@ -89,7 +88,6 @@ function readDataFromAnotherTable(tableName) {
     });
 }
 
-// -----------------------------------------------------------------------------
 
 // Veri Ekleme
 function insertDataIntoTable(tableName, data) {
@@ -137,5 +135,7 @@ module.exports = {
     insertDataIntoTable,
     deleteDataFromTable,
     updateDataInTable,
-    readDataFromAnotherTable
+    readDataFromAnotherTable,
+    getLastTenEvents
 };
+

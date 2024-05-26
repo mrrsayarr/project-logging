@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DarkPan - Bootstrap 5 Admin Template</title>
+    <title>DarkPan - Dashboard </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -30,7 +30,15 @@
     <!-- Template Stylesheet -->
     <link href="../public/css/style.css" rel="stylesheet">
 </head>
-
+<style>
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        z-index: 1;
+    }
+</style>
 <body>
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
@@ -72,6 +80,9 @@
                     <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
                     <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
+                    <a href="/virustotal" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Virus Total</a>
+                    <!-- <a href="/databreach" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Data Breach</a> -->
+
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -91,7 +102,7 @@
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <a href="/" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -104,12 +115,12 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
+                            <span class="d-none d-lg-inline-flex"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <!-- <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="../public/img/news.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -119,7 +130,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="../public/img/news.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -129,7 +140,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="../public/img/news.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -138,9 +149,9 @@
                             </a>
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="nav-item dropdown">
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
                             <span class="d-none d-lg-inline-flex">Notificatin</span>
@@ -163,8 +174,8 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item text-center">See all notifications</a>
                         </div>
-                    </div>
-                    <div class="nav-item dropdown">
+                    </div> -->
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
@@ -174,7 +185,7 @@
                             <a href="#" class="dropdown-item">Settings</a>
                             <a href="#" class="dropdown-item">Log Out</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </nav>
             <!-- Navbar End -->
@@ -227,7 +238,88 @@
             <!-- Sales Chart Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">
+                    <div class="container-fluid">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Recent Events</h6>
+                                <a href="/eventlog">Show All With Details</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table text-start">
+                                    <thead>
+                                        <tr class="text-white">
+                                            <th scope="col">EventID</th>
+                                            <th scope="col">PredictedValue</th>
+                                            <th scope="col">Event Description</th>
+                                            <!-- <th scope="col">Details</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% events.forEach(function(event, index) { %>
+                                            <tr>
+                                                <td><%= event.EventID %></td>
+                                                <td>
+                                                    <%= event.PredictedValue %>
+                                                    <% if (event.PredictedValue == 0) { %>
+                                                        <span class="badge bg-success">Safe</span>
+                                                    <% } else if (event.PredictedValue <= 2) { %>
+                                                        <span class="badge bg-warning">Warning</span>
+                                                    <% } else { %>
+                                                        <span class="badge bg-danger">Danger</span>
+                                                    <% } %>
+                                                </td>
+                                                <td><%= event.Description %></td>
+                                                <!-- <td>
+                                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                                                </td> -->
+                                            </tr>
+
+                                            <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content bg-secondary text-white">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
+                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div style="overflow: auto; max-height: 400px;">  
+                                                                <p>EventID: <%= event.EventID %></p>
+                                                                <p>PredictedValue: <%= event.PredictedValue %></p>
+                                                                <p>Description: <%= event.Description %></p>
+                                                                <p>SourceName: <%= event.SourceName %></p>
+                                                                <p>Status: <%= event.Level %></p>
+                                                                <p>Channel: <%= event.Channel %></p>
+                                                                <p>Message:
+                                                                    <pre>
+                                                                        <% 
+                                                                        try {
+                                                                            var messageObj = JSON.parse(event.Message);
+                                                                            %><%= JSON.stringify(messageObj, null, 2) %><%
+                                                                        } catch (error) {
+                                                                            %><%= event.Message %><%
+                                                                        }
+                                                                        %>
+                                                                    </pre>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                      
+                    <!-- <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Worldwide Sales</h6>
@@ -244,137 +336,54 @@
                             </div>
                             <canvas id="salse-revenue"></canvas>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- Sales Chart End -->
 
 
-            <!-- Recent Sales Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Salse</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Invoice</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Recent Sales End -->
-
-
             <!-- Widgets Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <!-- <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-secondary rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
+                            <div class="container">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Password Generator</h6>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
+                                <div class="form-group">
+                                    <label for="length">Length:</label>
+                                    <input type="number" id="length" name="length" min="1" max="100" value="15" class="form-control">
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
+                                <div class="form-check">
+                                    <input type="checkbox" id="lowercase" name="lowercase" checked class="form-check-input">
+                                    <label for="lowercase" class="form-check-label">Include lowercase letters</label>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
+                                <div class="form-check">
+                                    <input type="checkbox" id="uppercase" name="uppercase" checked class="form-check-input">
+                                    <label for="uppercase" class="form-check-label">Include uppercase letters</label>
                                 </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="numbers" name="numbers" checked class="form-check-input">
+                                    <label for="numbers" class="form-check-label">Include numbers</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="symbols" name="symbols" checked class="form-check-input">
+                                    <label for="symbols" class="form-check-label">Include symbols</label>
+                                </div>
+                                <button onclick="generatePassword()" class="btn btn-primary mt-3">Generate</button>
+                                <input type="text" id="password" readonly class="form-control mt-3">
                             </div>
                         </div>
-                    </div> -->
+                    </div>
+
+                    <!-- Modal For Password Generator -->
+                    <div class="toast" id="copyToast" style="position: fixed; bottom: 0; right: 0; margin: 20px;" data-delay="2000">
+                        <div class="toast-body">
+                            Copied to clipboard.
+                        </div>
+                    </div>
+                    
 
                     <!-- Calendar Starter -->
                     <div class="col-sm-12 col-md-6 col-xl-4">
@@ -391,6 +400,50 @@
             </div>
             <!-- Widgets End -->
 
+            <script>
+                    document.getElementById('length').addEventListener('keydown', function(e) {
+                        e.preventDefault();
+                    });
+
+                function generatePassword() {
+                    var length = document.getElementById('length').value;
+                    var lowercase = document.getElementById('lowercase').checked;
+                    var uppercase = document.getElementById('uppercase').checked;
+                    var numbers = document.getElementById('numbers').checked;
+                    var symbols = document.getElementById('symbols').checked;
+        
+                    var charset = '';
+                    var password = '';
+        
+                    if (lowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+                    if (uppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    if (numbers) charset += '0123456789';
+                    if (symbols) charset += '!@#$%^&*()_+!@(/!#+=?*|}{[]:?><./-=';
+        
+                    for (var i = 0, n = charset.length; i < length; ++i) {
+                        password += charset.charAt(Math.floor(Math.random() * n));
+                    }
+        
+                    document.getElementById('password').value = password;
+                }
+
+                document.getElementById("password").addEventListener("click", function() {
+                    this.select();
+                    document.execCommand("copy");
+                    //alert("Copied the text: " + this.value);
+                });
+
+                document.getElementById("password").addEventListener("click", function() {
+                    if(this.value !== '') { // input alanı boş değilse
+                        this.select();
+                        document.execCommand("copy");
+                
+                        var toastElement = document.getElementById("copyToast");
+                        var toastInstance = new bootstrap.Toast(toastElement);
+                        toastInstance.show();
+                    }
+                });
+            </script>
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -430,7 +483,7 @@
     <script src="../public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="../public/js/main.js"></script>
 </body>
 
 </html>

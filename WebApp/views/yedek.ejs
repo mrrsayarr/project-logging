@@ -1,10 +1,126 @@
 
 
+            <!-- Recent Sales Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Events</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">EventID</th>
+                                    <th scope="col">PredictedValue</th>
+                                    <th scope="col">Event Description</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% events.forEach(function(event, index) { %>
+                                <tr>
+                                    <td><%= event.EventID %></td>
+                                    <td>
+                                    <%= event.PredictedValue %>
+                                    <% if (event.PredictedValue == 0) { %>
+                                        <span class="badge bg-success">Safe</span>
+                                    <% } else if (event.PredictedValue <= 2) { %>
+                                        <span class="badge bg-warning">Warning</span>
+                                    <% } else { %>
+                                        <span class="badge bg-danger">Danger</span>
+                                    <% } %>
+                                    </td>
+                                    <td><%= event.Description %></td>
+                                    <td>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                                    </td>
+                                </tr>
+                            
+                                <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-content bg-secondary text-white">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <div style="overflow: auto; max-height: 400px;">  
+                                            <p>EventID: <%= event.EventID %></p>
+                                            <p>PredictedValue: <%= event.PredictedValue %></p>
+                                            <p>Description: <%= event.Description %></p>
+                                            <p>SourceName: <%= event.SourceName %></p>
+                                            <p>Status: <%= event.Level %></p>
+                                            <p>Channel: <%= event.Channel %></p>
+                                            <p>Message:
+                                            <pre>
+                                                <% 
+                                                try {
+                                                    var messageObj = JSON.parse(event.Message);
+                                                    %><%= JSON.stringify(messageObj, null, 2) %><%
+                                                } catch (error) {
+                                                    %><%= event.Message %><%
+                                                }
+                                                %>
+                                            </pre>
+                                            </p>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
 
 
+<!-- 
+
+// router.get('/filewatcher', function(req, res) {
+    //   db.readDataFromTable('file_logs', function(err, data) {
+    //       if (err) {
+    //           console.error(err);
+    //           res.status(500).send('Server Error');
+    //       } else {
+    //           res.render('filewatcher', { file_logs: data });
+    //       }
+    //   });
+    // });
+    
+    
+    
+    // router.get('/news', function(req, res, next) {
+    //   res.render('news');
+    // });
+    
+    // router.get('/network', function(req, res) {
+    //   res.render('network');
+    // });
+    
+    // Router nesnesini dışa aktarın
+    
+    
+    
+    // router.get('/network', function(req, res) {
+    //   db.readDataFromTable('IpLogs', ['PID', 'Process', 'Protocol', 'StartTime', 'CommunicationProtocol', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort'], function(err, data) {
+    //       if (err) {
+    //           console.error(err);
+    //           res.status(500).send('Server Error');
+    //       } else {
+    //           res.render('network', { IpLogs: data }); // 'IpLogs' değişkeni burada tanımlanır
+    //       }
+    //   });
+    // });
 
 
-
+ -->
 
 
 <div class="table-responsive">

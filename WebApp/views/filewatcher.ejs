@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DarkBoard - Cyber News </title>
+    <title>DarkBoard - File Watchdog </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -88,6 +88,8 @@
                     <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
                     <a href="/filewatcher" class="nav-item nav-link active"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
+                    <a href="/virustotal" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Virus Total</a>
+
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -105,7 +107,7 @@
 
         <!-- Content Start -->
         <div class="content">
-            <!-- Navbar Start -->
+                        <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
                 <a href="/" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
@@ -132,11 +134,11 @@
                     <form action="/update-path" method="POST">
                         <div class="mb-3">
                           <label for="newPath" class="form-label"></label>
-                          <input typKe="text" class="form-control border-success" id="newPath" name="newPath" value="<%= path %>" readonly>
-                          <input type="text" class="form-control border-success" id="newPathInput" name="newPathInput" placeholder="Enter your directory path" required>
-                          <small class="form-text text-muted">Example: C:\Users\muham\Desktop\Project\WebApp</small>
+                          <input typKe="text" class="form-control border-success m-2" id="newPath" name="newPath" value="<%= path %>" readonly>
+                          <input type="text" class="form-control border-success m-2" id="newPathInput" name="newPathInput" placeholder="Enter your directory path" required>
+                          <small class="form-text text-muted m-2">Example: C:\Users\muham\Desktop\Project\WebApp</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Yolu Güncelle</button>
+                        <button type="submit" class="btn btn-primary m-2">Update Path</button>
                     </form>
 
 
@@ -195,6 +197,7 @@
 
                 </div>
             </div>
+
 
             <!-- For Modal -->
             <script>
