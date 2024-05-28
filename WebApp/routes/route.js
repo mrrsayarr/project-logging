@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db'); // db.js dosyasını import
 const axios = require('axios');
+const { exec } = require('child_process');
 
 // Middleware fonksiyonu ?
 // function logRequest(req, res, next) {
@@ -21,77 +22,45 @@ router.get('/', function(req, res, next) {
 
 //----------------------------------------------
 
-// Data Breach Page
-router.get('/databreach', async (req, res) => {
-  let data = null;
-  let error = null;
-  console.log('ROUTER');
-  if (req.query.email) {
-    console.log('IF');
-    try {
-      const response = await axios.get(`https://haveibeenpwned.com/api/v3/breachedaccount/${req.query.email}`, {
-        headers: {
-          'hibp-api-key': 'YOUR_HIBP_API_KEY' // Buraya Have I Been Pwned'den aldığınız API anahtarınızı girin
-        }
-      });
-      data = response.data;
-    } catch (err) {
-      console.error(err);
-      error = 'An error occurred while checking for breaches.';
-    }
-  }
+// Python Scripts Run
 
-  res.render('databreach', { data, error });
-});
+// const PythonShell = require('python-shell').PythonShell;
 
-//----------------------------------------------
+// let pythonShell;
 
-// // Python Scripts Run
-// let intervalId;
+// router.post('/run-python', (req, res) => {
+//     let options = {
+//         mode: 'text',
+//         pythonPath: 'C:\\Users\\muham\\OneDrive\\Masaüstü\\proje\\securitydatasets\\2022.08.03\\master\\.venv\\Scripts\\python.exe',
+//         pythonOptions: ['-u'],
+//         scriptPath: 'C:\\Users\\muham\\OneDrive\\Masaüstü\\proje\\securitydatasets\\2022.08.03\\master\\',
+//         args: []
+//     };
 
-// // Python scriptini her 30 saniyede bir çalıştıran işlem
-// intervalId = setInterval(function() {
-//   const { spawn } = require('child_process');
-//   // const python = spawn('python', ['../../master/FileWatchdog.py']);
-//   const python = spawn('python', ["C:\\Users\\muham\\OneDrive\\Masaüstü\\proje\\securitydatasets\\2022.08.03\\master\\FileWatchdog.py"]);
-  
-//   python.stdout.on('data', (data) => {
-//     console.log(`stdout: ${data}`);
-//   });
+//     pythonShell = PythonShell.run('LogCollector.py', options, function (err, results) {
+//         if (err) {
+//             console.error(`exec error: ${err}`);
+//             return;
+//         }
+//         console.log('results: %j', results);
+//     });
 
-//   python.stderr.on('data', (data) => {
-//     console.error(`stderr: ${data}`);
-//   });
-
-//   python.on('close', (code) => {
-//     console.log(`child process exited with code ${code}`);
-//   });
-// }, 30000);  // 30000 milisaniye = 30 saniye
-
-// // Butonla tetiklenecek route
-// router.get('/run-python', function(req, res) {
-//   const { spawn } = require('child_process');
-//   // const python = spawn('python', ['../../master/FileWatchdog.py']);
-//   const python = spawn('python', ["C:\\Users\\muham\\OneDrive\\Masaüstü\\proje\\securitydatasets\\2022.08.03\\master\\FileWatchdog.py"]);
-
-//   python.stdout.on('data', (data) => {
-//     console.log(`stdout: ${data}`);
-//   });
-
-//   python.stderr.on('data', (data) => {
-//     console.error(`stderr: ${data}`);
-//   });
-
-//   python.on('close', (code) => {
-//     console.log(`child process exited with code ${code}`);
-//     res.send(`Python script exited with code ${code}`);
-//   });
+//     res.send('Python script is running');
 // });
 
-// // Python scriptini durdurma route'u
-// router.get('/stop-python', function(req, res) {
-//   clearInterval(intervalId);
-//   res.send('Python script stopped');
+// router.post('/stop-python', (req, res) => {
+//     if (pythonShell) {
+//         pythonShell.end(function (err,code,signal) {
+//             if (err) throw err;
+//             console.log('The exit code was: ' + code);
+//             console.log('The exit signal was: ' + signal);
+//             console.log('finished');
+//             console.log('finished');
+//         });
+//         res.send('Python script has been stopped');
+//     } else {
+//         res.send('No Python script is running');
+//     }
 // });
 
 //----------------------------------------------
@@ -104,6 +73,7 @@ router.get('/eventlog', function(req, res) {
         console.error(err);
         res.status(500).send('Server Error');
       } else {
+        // console.log(data);
         res.render('eventlog', { events: data }); // 'events' değişkeni burada tanımlanır
       }
     });
@@ -229,7 +199,7 @@ router.post('/update-path', function(req, res) {
         console.log('error: ' + err.message);
       } else {
         console.log('Row(s) updated: 1');
-        res.redirect('/');
+        res.redirect('/filewatcher');
         console.log('Succesfully updated path!');
       }
     });
@@ -249,6 +219,42 @@ router.get('/virustotal', function(req, res) {
   }
 });
 
+// About 
+router.get('/about', function(req, res) {
+  try {
+    res.render('about');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+//----------------------------------------------
+
+// Data Breach Page
+router.get('/databreach', async (req, res) => {
+  let data = null;
+  let error = null;
+  console.log('ROUTER');
+  if (req.query.email) {
+    console.log('IF');
+    try {
+      const response = await axios.get(`https://haveibeenpwned.com/api/v3/breachedaccount/${req.query.email}`, {
+        headers: {
+          'hibp-api-key': 'YOUR_HIBP_API_KEY' // Buraya Have I Been Pwned'den aldığınız API anahtarınızı girin
+        }
+      });
+      data = response.data;
+    } catch (err) {
+      console.error(err);
+      error = 'An error occurred while checking for breaches.';
+    }
+  }
+
+  res.render('databreach', { data, error });
+});
+
+//----------------------------------------------
 
 // Export the router 
 module.exports = router;

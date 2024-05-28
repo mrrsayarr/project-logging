@@ -53,16 +53,17 @@
                                             <p>Status: <%= event.Level %></p>
                                             <p>Channel: <%= event.Channel %></p>
                                             <p>Message:
-                                            <pre>
-                                                <% 
-                                                try {
-                                                    var messageObj = JSON.parse(event.Message);
-                                                    %><%= JSON.stringify(messageObj, null, 2) %><%
-                                                } catch (error) {
-                                                    %><%= event.Message %><%
-                                                }
-                                                %>
-                                            </pre>
+                                                <pre>
+                                                    <% 
+                                                    try {
+                                                        var messageObj = JSON.parse(event.Message);
+                                                        var messageStr = Object.values(messageObj).join(", ");
+                                                        %><%= messageStr %><%
+                                                    } catch (error) {
+                                                        %><%= event.Message %><%
+                                                    }
+                                                    %>
+                                                </pre>
                                             </p>
                                         </div>
                                         </div>

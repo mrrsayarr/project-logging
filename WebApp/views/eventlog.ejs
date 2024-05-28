@@ -87,6 +87,7 @@
                     <a href="/eventlog" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Eventlog</a>
                     <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
                     <a href="/virustotal" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Virus Total</a>
+                    <a href="/about" class="nav-item nav-link"><i class="fa fa-bell me-2"></i>About DarkPan</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -112,11 +113,91 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <!-- <input class="form-control bg-dark border-0" type="search" placeholder="Search"> -->
-                    <button class="btn btn-primary m-1" onclick="location.href='/run-python'">Run </button>
-                    <button class="btn btn-primary m-1" onclick="location.href='/stop-python'">Stop </button>
+                <!-- <form class="d-inline-block" action="/run-python" method="POST">
+                    <button class="btn btn-primary m-1" type="submit">Run</button>
                 </form>
+                <form class="d-inline-block" action="/stop-python" method="POST">
+                    <button class="btn btn-primary m-1" type="submit">Stop</button>
+                </form> -->
+                <button id="toggleRefreshButton" class="btn btn-success m-2">Start/Stop Automatic</button>
+                
+                <script>
+                    const refreshButton = document.getElementById('toggleRefreshButton');
+                
+                    // Otomatik yenileme durumunu localStorage'dan al
+                    const isRefreshing = localStorage.getItem('isRefreshing') === 'true';
+                
+                    if (isRefreshing) {
+                        startRefresh();
+                    } else {
+                        stopRefresh();
+                    }
+                
+                    refreshButton.addEventListener('click', function() {
+                        if (localStorage.getItem('isRefreshing') === 'true') {
+                            stopRefresh();
+                        } else {
+                            startRefresh();
+                        }
+                    });
+                
+                    function startRefresh() {
+                        localStorage.setItem('isRefreshing', 'true');
+                        refreshButton.textContent = 'Stop Automatic Refresh';
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000); // 3 saniye
+                    }
+                
+                    function stopRefresh() {
+                        localStorage.setItem('isRefreshing', 'false');
+                        refreshButton.textContent = 'Start Automatic Refresh';
+                    }
+
+                    // EventID Aramaları için
+                    window.onload = function() {
+                                // Tüm EventID hücrelerini seç
+                                const eventIDCells = document.querySelectorAll('td.eventID');
+                        
+                                // Her bir hücreye bir click event listener ekleyin
+                                eventIDCells.forEach(cell => {
+                                    // Hücrenin mevcut içeriğini al
+                                    const cellContent = cell.textContent.trim();
+                        
+                                    // Hücrenin içeriğini temizle
+                                    cell.textContent = '';
+                        
+                                    // Yeni bir div elementi oluştur ve hücrenin içeriğini içine al
+                                    const div = document.createElement('div');
+                                    div.textContent = cellContent;
+                        
+                                    // Div'i bir flex container olarak ayarla
+                                    div.style.display = 'flex';
+                                    div.style.justifyContent = 'space-between';
+                                    div.style.alignItems = 'center';
+                        
+                                    // Yeni bir span elementi oluştur
+                                    const span = document.createElement('span');
+                        
+                                    // Span elementine bir click event listener ekleyin
+                                    span.addEventListener('click', function() {
+                                        window.open(`https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=${cellContent}`, '_blank');
+                                    });
+                        
+                                    // Span elementine bir büyüteç simgesi ekleyin
+                                    span.innerHTML = `<img src="/public/img/773969.png" alt="Search" width="20" height="20">`;
+                        
+                                    // Span elementine biraz CSS ekleyin
+                                    span.style.cursor = 'pointer';
+                        
+                                    // Span elementini div'e ekleyin
+                                    div.appendChild(span);
+                        
+                                    // Div elementini hücreye ekleyin
+                                    cell.appendChild(div);
+                                });
+                            };
+                </script>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -131,35 +212,37 @@
             <div class="container-fluid pt-4 px-4">
                 <table class="table text-start align-middle table-bordered table-hover mb-0 sticky-header">
                     <thead>
-                      <tr>
-                        <th scope="col">EventID</th>
-                        <th scope="col">PredictedValue</th>
-                        <th scope="col">Event Description</th>
-                        <!-- <th scope="col">Status</th> -->
-                        <th scope="col">Details</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">#</th> <!-- Sıra numarası için yeni bir sütun başlığı ekledik -->
+                            <th scope="col">EventID</th>
+                            <th scope="col">PredictedValue</th>
+                            <th scope="col">Event Description</th>
+                            <!-- <th scope="col">Status</th> -->
+                            <th scope="col">Details</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <% events.forEach(function(event, index) { %>
-                    <tr>
-                        <td><%= event.EventID %></td>
-                        <td>
-                          <%= event.PredictedValue %>
-                          <% if (event.PredictedValue == 0) { %>
-                            <span class="badge bg-success">Safe</span>
-                          <% } else if (event.PredictedValue <= 2) { %>
-                            <span class="badge bg-warning">Warning</span>
-                          <% } else { %>
-                            <span class="badge bg-danger">Danger</span>
-                          <% } %>
-                        </td>
-                        <td><%= event.Description %></td>
-                        <!-- <td><%= event.Level %></td> -->
-                        <!-- <td><%= event.Channel %></td> -->
-                        <td>
-                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
-                        </td>
-                    </tr>
+                        <% events.forEach(function(event, index) { %>
+                        <tr>
+                            <td><%= index + 1 %></td> <!-- Sıra numarasını ekledik -->
+                            <td class="eventID"><%= event.EventID %>     </td>
+                            <td>
+                                <%= event.PredictedValue %>
+                                <% if (event.PredictedValue == 0) { %>
+                                    <span class="badge bg-success">Safe</span>
+                                <% } else if (event.PredictedValue <= 2) { %>
+                                    <span class="badge bg-warning">Warning</span>
+                                <% } else { %>
+                                    <span class="badge bg-danger">Danger</span>
+                                <% } %>
+                            </td>
+                            <td><%= event.Description ? event.Description : 'Unknown' %></td>
+                            <!-- <td><%= event.Level %></td> -->
+                            <!-- <td><%= event.Channel %></td> -->
+                            <td>
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
+                            </td>
+                        </tr>
                   
                     <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -170,24 +253,21 @@
                             </div>
                             <div class="modal-body">
                                 <div style="overflow: auto; max-height: 400px;">  
-                                    <p>EventID: <%= event.EventID ? event.EventID : 'Bilinmiyor' %></p>
-                                    <p>PredictedValue: <%= event.PredictedValue ? event.PredictedValue : 'Bilinmiyor' %></p>
-                                    <p>Description: <%= event.Description ? event.Description : 'Bilinmiyor' %></p>
-                                    <p>SourceName: <%= event.SourceName ? event.SourceName : 'Bilinmiyor' %></p>
-                                    <p>Status: <%= event.Level ? event.Level : 'Bilinmiyor' %></p>
-                                    <p>Channel: <%= event.Channel ? event.Channel : 'Bilinmiyor' %></p>
-                                    <p>Message:
-                                        <pre>
-                                            <% 
-                                                try {
-                                                    var messageObj = JSON.parse(event.Message);
-                                                    %><%= JSON.stringify(messageObj, null, 2) %><%
-                                                } catch (error) {
-                                                    %><%= event.Message ? event.Message : 'Bilinmiyor' %><%
-                                                }
-                                            %>
-                                        </pre>
-                                    </p>
+                                    <p>EventID: <%= event.EventID ? event.EventID : 'Unknown' %></p>
+                                    <p>PredictedValue: <%= event.PredictedValue %>
+                                        <% if (event.PredictedValue == 0) { %>
+                                          <span class="badge bg-success">Safe</span>
+                                        <% } else if (event.PredictedValue <= 2) { %>
+                                          <span class="badge bg-warning">Warning</span>
+                                        <% } else { %>
+                                          <span class="badge bg-danger">Danger</span>
+                                        <% } %>
+                                    <p>Description: <%= event.Description ? event.Description : 'Unknown' %></p>
+                                    <p>SourceName: <%= event.SourceName ? event.SourceName : 'Unknown' %></p>
+                                    <p>Time: <%= event.TimeGenerated ? event.TimeGenerated : 'Unknown' %></p>
+                                    <p>Status: <%= event.Level ? event.Level : 'Unknown' %></p>
+                                    <p>Channel: <%= event.Channel ? event.Channel : 'Unknown' %></p>
+                                    <p>Message: <%- event.Message ? event.Message.replace(/\r\n/g, '<br>') : 'Unknown' %></p>
                                 </div>
                             </div>  
                             <div class="modal-footer">
@@ -201,7 +281,7 @@
                 </table>
             </div>
             <!-- Table End -->
- 
+        
 
             <!-- For Modal -->
             <script>

@@ -55,11 +55,11 @@ const readDataFromTable = function(tableName, callback) {
 
     let query;
     if (tableName === 'events') {
-        // 'events' tablosu için JOIN işlemi uygulanır
-        query = `SELECT ${tableName}.*, eventdescription.Description 
-            FROM ${tableName} 
-            JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
-            ORDER BY ${tableName}.PredictedValue ASC`;
+    // 'events' tablosu için LEFT JOIN işlemi uygulanır
+    query = `SELECT ${tableName}.*, eventdescription.Description 
+        FROM ${tableName} 
+        LEFT JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
+        ORDER BY ${tableName}.PredictedValue ASC`;
     } else {
         // Diğer tablolar için basit bir SELECT sorgusu kullanılır
         query = `SELECT * FROM ${tableName}`;

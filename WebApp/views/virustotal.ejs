@@ -87,10 +87,9 @@
                     <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
                     <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
-                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File
-                        Watchdog</a>
-                    <a href="/virustotal" class="nav-item nav-link active"><i class="fa fa-envelope me-2"></i>Virus
-                        Total</a>
+                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
+                    <a href="/virustotal" class="nav-item nav-link active"><i class="fa fa-envelope me-2"></i>Virus Total</a>
+                    <a href="/about" class="nav-item nav-link"><i class="fa fa-bell me-2"></i>About DarkPan</a>
 
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
@@ -138,8 +137,11 @@
                         <!-- Table Start -->
                         <h1 class="display-4 text-center text-primary my-4">VirusTotal Result</h1>
 
-                        <input type="password" class="form-control border-success m-2" id="apiKey" placeholder="API Key" required>
-                        <input type="text" class="form-control border-success m-2" id="fileHash" placeholder="File Hash">
+                        <input type="password" class="form-control border-success m-2" id="apiKey" placeholder="API Key"
+                            required>
+                        <input type="text" class="form-control border-success m-2" id="fileHash"
+                            placeholder="File Hash">
+                        <small class="form-text text-muted mb-2 ">► Your File Hash Key Example: 0001c1409b360fc8e1b6933d20c7bfa42e1f5d7bc1593a5057a96930e0b53488</small>
                         <button id="submit" class="btn btn-primary m-2">Submit</button>
                         <button id="clear" class="btn btn-danger m-2">Clear</button>
 
@@ -188,25 +190,26 @@
                             // Example Hash
                             // 0001c1409b360fc8e1b6933d20c7bfa42e1f5d7bc1593a5057a96930e0b53488
 
-                            function createTableFromJSON(jsonData) {
-                                let table = '<table>';
-                                for (let key in jsonData) {
-                                    if (Array.isArray(jsonData[key])) {
-                                        for (let i = 0; i < jsonData[key].length; i++) {
-                                            table += '<tr>';
-                                            for (let subKey in jsonData[key][i]) {
-                                                table += `<td>${subKey}</td><td>${jsonData[key][i][subKey]}</td>`;
-                                            }
-                                            table += '</tr>';
+                            function jsonToTable(jsonData) {
+                                let processObject = (obj) => {
+                                    let cols = ["id", "type", "self", "filetype"];
+                                    let headerRow = cols.map(col => `<th>${col}</th>`).join("");
+                            
+                                    let rows = cols.map(col => {
+                                        let data = obj[col];
+                                        if (Array.isArray(data)) {
+                                            let subRows = data.map(subData => `<tr>${Object.values(subData).map(val => `<td>${val}</td>`).join('')}</tr>`).join("");
+                                            data = `<table border="1"><thead><tr>${Object.keys(data[0]).map(subCol => `<th>${subCol}</th>`).join('')}</tr></thead><tbody>${subRows}</tbody></table>`;
+                                        } else if (typeof data === 'object' && data !== null) {
+                                            data = processObject(data);
                                         }
-                                    } else if (typeof jsonData[key] === 'object' && jsonData[key] !== null) {
-                                        table += `<tr><td>${key}</td><td>${createTableFromJSON(jsonData[key])}</td></tr>`;
-                                    } else {
-                                        table += `<tr><td>${key}</td><td>${jsonData[key]}</td></tr>`;
-                                    }
-                                }
-                                table += '</table>';
-                                return table;
+                                        return `<td>${data}</td>`;
+                                    }).join("");
+                            
+                                    return `<table border="1"><thead><tr>${headerRow}</tr></thead><tbody><tr>${rows}</tr></tbody></table>`;
+                                };
+                            
+                                return processObject(jsonData);
                             }
 
                             $.ajax({
@@ -216,13 +219,14 @@
                                     xhr.setRequestHeader('x-apikey', apiKey);
                                 },
                                 success: function (data) {
-                                    let tableHTML = createTableFromJSON(data.data.attributes);
+                                    let tableHTML = jsonToTable(data.data);
                                     $('#result').html(tableHTML);
                                 },
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     console.log(jqXHR, textStatus, errorThrown);
                                 }
                             });
+
                         </script>
                         <!-- Table End -->
                     </div>

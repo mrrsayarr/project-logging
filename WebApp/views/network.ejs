@@ -96,9 +96,9 @@
                     <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
                     <a href="/network" class="nav-item nav-link active"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
-                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File
-                        Watchdog</a>
+                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
                     <a href="/virustotal" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Virus Total</a>
+                    <a href="/about" class="nav-item nav-link"><i class="fa fa-bell me-2"></i>About DarkPan</a>
 
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
@@ -125,9 +125,41 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
+                <button id="toggleRefreshButton" class="btn btn-success m-2">Start/Stop Automatic</button>
+                
+                <script>
+                    const refreshButton = document.getElementById('toggleRefreshButton');
+                
+                    // Otomatik yenileme durumunu localStorage'dan al
+                    const isRefreshing = localStorage.getItem('isRefreshing') === 'true';
+                
+                    if (isRefreshing) {
+                        startRefresh();
+                    } else {
+                        stopRefresh();
+                    }
+                
+                    refreshButton.addEventListener('click', function() {
+                        if (localStorage.getItem('isRefreshing') === 'true') {
+                            stopRefresh();
+                        } else {
+                            startRefresh();
+                        }
+                    });
+                
+                    function startRefresh() {
+                        localStorage.setItem('isRefreshing', 'true');
+                        refreshButton.textContent = 'Stop Automatic Refresh';
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000); // 3 saniye
+                    }
+                
+                    function stopRefresh() {
+                        localStorage.setItem('isRefreshing', 'false');
+                        refreshButton.textContent = 'Start Automatic Refresh';
+                    }
+                </script>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -229,6 +261,9 @@
                                                     <p>LocalPort: <%= log.LocalPort %>
                                                     </p>
                                                     <p>RemoteIP: <%= log.RemoteIP %>
+                                                        <% if (isGlobalIP(log.RemoteIP)) { %>
+                                                            <span class="blink_me">▼</span>
+                                                            <% } %>
                                                     </p>
                                                     <p>RemotePort: <%= log.RemotePort %>
                                                     </p>
