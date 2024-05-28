@@ -31,12 +31,6 @@ def setup_database():
         )
     ''')
 
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS eventdescription (
-            EventID INT PRIMARY KEY,
-            Description TEXT
-        )
-    ''')
 
     db.commit()
     db.close()

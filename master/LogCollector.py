@@ -2,12 +2,15 @@
 """
 Level açıklamaları ile yapan fonksiyonları eklendi
 Artık PredictValue değerini yazıyor
+
+Log Analiz: Mevcut log dosyalarını analiz eden ve desenleri, anormallikleri ve potansiyel
+sorunları arayan bir script. Bu, sistemin genel durumunu anlamaMıza ve sorunları daha hızlı
+bir şekilde çözmeYE yardımcı olur.
 """
 
 import os
 import sqlite3
 import traceback
-
 import win32evtlog
 import json
 import time
@@ -16,6 +19,9 @@ from RegressionFunc import load_and_predict
 def classify_event_id(event_id):
     return load_and_predict(event_id)
 
+"""
+
+"""
 def log_error_to_db(error_message):
     db = sqlite3.connect('Database.db')
     cursor = db.cursor()
@@ -51,7 +57,8 @@ def get_security_event_logs():
             "SourceName": event.SourceName,
             "Status": level_titles.get(event.EventType, "Bilinmeyen"),  # Level seviyesine karşılık gelen başlık
             "Channel": "Security",
-            "Message": event.StringInserts
+            "Message": event.StringInserts,
+            "TimeGenerated": str(event.TimeGenerated)  # Oluşturulma zamanını ekledik
         }
         logs.append(log_data)
     win32evtlog.CloseEventLog(handle)
@@ -69,9 +76,10 @@ def save_logs_to_db(logs):
     cursor = db.cursor()
     for log in logs:
         cursor.execute('''
-            INSERT INTO events (EventID, PredictedValue, SourceName, Level, Channel, Message)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (log["EventID"], log["PredictedValue"], log["SourceName"], log["Status"], log["Channel"], str(log["Message"])))
+            INSERT INTO events (EventID, PredictedValue, SourceName, Level, Channel, Message, TimeGenerated)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (
+        log["EventID"], log["PredictedValue"], log["SourceName"], log["Status"], log["Channel"], str(log["Message"]), log["TimeGenerated"]))
     db.commit()
     db.close()
 
@@ -88,9 +96,9 @@ def main():
     while True:
         try:
             security_logs = get_security_event_logs()
-            save_logs_to_json(security_logs, "Logs/OUTPUT.json")
+            save_logs_to_json(security_logs, "Logs/LogCollectorOutput.json")
             save_logs_to_db(security_logs)
-            check_and_reset_file_size("Logs/OUTPUT.json", max_size_mb=5)
+            check_and_reset_file_size("Logs/LogCollectorOutput.json", max_size_mb=5)
             time.sleep(60)
         except Exception as e:
             error_message = traceback.format_exc()

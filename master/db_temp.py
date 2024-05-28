@@ -3,31 +3,34 @@
 Verileri eventdescription tablosuna ekleme fonksiyonu
 Sütun başlarında EventID ve Description başlıkları olmak zorunda
 """
-
-import sqlite3
 import pandas as pd
+import sqlite3
 
+# Verileri manuel olarak oluştur
+data = {
+    "EventID": [16384, 12, 13, 18, 800, 4103, 4106, 4104, 4105, 24577],
+    "PredictedValue": [4, 4, 4, 4, 4, 4, 5, 5, 5, 4],
+    "Message": [None, None, None, None, None, None, None, None, None, None],
+    "SourceName": [None, None, None, None, None, None, None, None, None, None],
+    "Status": [None, None, None, None, None, None, None, None, None, None],
+    "Channel": [None, None, None, None, None, None, None, None, None, None]
+}
 
-def add_events_from_excel(db_path, excel_path, sheet_name='Sheet1'):
-    # Excel dosyasını oku
-    df = pd.read_excel(excel_path, sheet_name=sheet_name)
+# Verileri bir pandas DataFrame'e dönüştür
+df = pd.DataFrame(data)
 
-    # Veritabanına bağlanma
-    db = sqlite3.connect(db_path)
-    cursor = db.cursor()
+# Veritabanına bağlanma
+db_path = 'Database.db'  # Veritabanının yolu
+db = sqlite3.connect(db_path)
+cursor = db.cursor()
 
-    # DataFrame'deki her satırı tabloya ekle
-    for index, row in df.iterrows():
-        cursor.execute('''
-            INSERT OR IGNORE INTO eventdescription (EventID, Description)
-            VALUES (?, ?)
-        ''', (row['EventID'], row['Description']))
+# DataFrame'deki her satırı tabloya ekle
+for index, row in df.iterrows():
+    cursor.execute('''
+        INSERT OR IGNORE INTO events (EventID, PredictedValue, Message, SourceName, Status, Channel)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (row['EventID'], row['PredictedValue'], row['Message'], row['SourceName'], row['Status'], row['Channel']))
 
-    # Değişiklikleri kaydetme
-    db.commit()
-    db.close()
-
-
-# Örnek kullanım
-if __name__ == "__main__":
-    add_events_from_excel('Database.db', 'data.xlsx') # Verileri Database.db içine ekleme. (data.xlsx dosyasını kullanarak)
+# Değişiklikleri kaydetme
+db.commit()
+db.close()
