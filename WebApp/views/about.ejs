@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DarkPan - Dashboard </title>
+    <title>DarkPan - About </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -14,8 +14,9 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
+        rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -38,11 +39,16 @@
         color: #fff;
         z-index: 1;
     }
+    body {
+        color: #fafafa !important;
+    }
 </style>
+
 <body>
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -79,7 +85,8 @@
                     <a href="/news" class="nav-item nav-link"><i class="fa fa-th me-2"></i>News</a>
                     <a href="/network" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>IP Logs</a>
                     <a href="/eventlog" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Eventlog</a>
-                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File Watchdog</a>
+                    <a href="/filewatcher" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>File
+                        Watchdog</a>
                     <a href="/virustotal" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Virus Total</a>
                     <a href="/about" class="nav-item nav-link active"><i class="fa fa-bell me-2"></i>About DarkPan</a>
                     <!-- <a href="/databreach" class="nav-item nav-link"><i class="fa fa-envelope me-2"></i>Data Breach</a> -->
@@ -128,7 +135,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="btn-group mb-4">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 Language
                             </button>
                             <ul class="dropdown-menu">
@@ -137,29 +145,114 @@
                             </ul>
                         </div>
                         <div id="aboutTextTurkish" class="d-none">
-                            <h1>Proje Hakkında</h1>
-                            <p>Proje hakkında Türkçe bilgi...</p>
+                            <div class="card bg-dark">
+                                <div class="card-header">
+                                    <h1 class="card-title">Proje Hakkında</h1>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Dashboard</h5>
+                                    <p class="card-text">Dashboard, tüm siber güvenlik etkinliklerinizi merkezi bir
+                                        yerden yönetmenizi sağlayan kapsamlı bir kontrol panelidir. Gerçek zamanlı
+                                        veriler ve uyarılarla sisteminizin güvenlik durumunu hızlı bir şekilde
+                                        değerlendirmenize olanak tanır. Sistem performansını izleyebilir, önemli
+                                        güvenlik olaylarına hızlıca müdahale edebilirsiniz.</p>
+                                    <h5 class="card-title">News Sayfası</h5>
+                                    <p class="card-text">News sayfası, en güncel siber güvenlik haberlerini ve
+                                        trendlerini takip etmenizi sağlar. Bu sayede, siber tehditler ve güvenlik
+                                        açıkları hakkında güncel bilgi sahibi olabilir ve sisteminizi korumak için
+                                        gerekli önlemleri zamanında alabilirsiniz. Haberler, sektör uzmanları tarafından
+                                        derlenmiş ve düzenli olarak güncellenmektedir.</p>
+                                    <h5 class="card-title">IP Logs Sayfası</h5>
+                                    <p class="card-text">IP Logs sayfası, sisteminize giren ve çıkan tüm IP adreslerinin
+                                        kaydını tutar. Bu sayede, ağ trafiğinizi izleyebilir, anormal aktiviteleri
+                                        tespit edebilir ve olası tehditlere karşı proaktif önlemler alabilirsiniz. IP
+                                        logları, detaylı analizler yapmanıza ve geçmişteki olayları inceleyerek güvenlik
+                                        stratejilerinizi geliştirmeye yardımcı olur.</p>
+                                    <h5 class="card-title">Eventlog Sayfası</h5>
+                                    <p class="card-text">Eventlog sayfası, yerel bilgisayarınızdaki tüm logları çekip
+                                        analiz eder ve sınıflandırır. Kullanıcılar bu sayede, farklı olay türlerini
+                                        kolayca ayırt edebilir ve olası tehditleri daha hızlı ve etkili bir şekilde
+                                        tespit edebilirler. Eventlog, güvenlik olaylarının kronolojik bir kaydını
+                                        sunarak detaylı inceleme ve analiz yapmanıza olanak tanır.</p>
+                                    <h5 class="card-title">File Watchdog Sayfası</h5>
+                                    <p class="card-text">File Watchdog sayfası, belirttiğiniz dosya yolunda gerçekleşen
+                                        herhangi bir değişikliği izler ve kaydeder. Dosya değişikliklerini takip ederek,
+                                        yetkisiz erişim veya değişiklikleri anında tespit edebilir ve gerekli önlemleri
+                                        alabilirsiniz. Dosya yolu, POST isteği ile kolayca güncellenebilir, bu da
+                                        esneklik ve kullanıcı dostu bir deneyim sunar.</p>
+                                    <h5 class="card-title">Virus Total Sayfası</h5>
+                                    <p class="card-text">Virus Total sayfası, dosyalarınızın hash kodlarını kullanarak
+                                        potansiyel tehditleri araştırmanızı sağlar. Dosyaların güvenli olup olmadığını
+                                        tespit etmek için kapsamlı bir virüs taraması gerçekleştirir ve olası tehditlere
+                                        karşı sizi bilgilendirir. Bu sayede, sisteminize zarar verebilecek dosyaları
+                                        önceden tespit ederek güvenliğinizi artırabilirsiniz.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div id="aboutTextEnglish">
+                        <!-- <div id="aboutTextEnglish">
                             <h1>About the Project</h1>
                             <p>Information about the project in English...</p>
+                        </div> -->
+                        <div id="aboutTextEnglish">
+                            <div class="card bg-dark    ">
+                                <div class="card-header">
+                                    <h1 class="card-title">About the Project</h1>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Dashboard</h5>
+                                    <p class="card-text">The Dashboard is a comprehensive control panel that allows you
+                                        to manage all your cybersecurity activities from a central location. With
+                                        real-time data and alerts, you can quickly assess the security status of your
+                                        system. Monitor system performance and promptly respond to significant security
+                                        incidents.</p>
+                                    <h5 class="card-title">News</h5>
+                                    <p class="card-text">The News page helps you stay up-to-date with the latest
+                                        cybersecurity news and trends. By keeping informed about cyber threats and
+                                        security vulnerabilities, you can take the necessary precautions to protect your
+                                        system. The news is curated by industry experts and regularly updated.</p>
+                                    <h5 class="card-title">IP Logs</h5>
+                                    <p class="card-text">The IP Logs page records all incoming and outgoing IP addresses
+                                        on your system. This allows you to monitor network traffic, detect abnormal
+                                        activities, and take proactive measures against potential threats. Detailed
+                                        analyses of IP logs help you review past events and refine your security
+                                        strategies.</p>
+                                    <h5 class="card-title">Eventlog</h5>
+                                    <p class="card-text">The Eventlog page retrieves, analyzes, and categorizes all logs
+                                        from your local computer. This enables users to easily distinguish between
+                                        different types of events and detect potential threats more quickly and
+                                        effectively. Eventlog provides a chronological record of security incidents,
+                                        allowing for detailed examination and analysis.</p>
+                                    <h5 class="card-title">File Watchdog</h5>
+                                    <p class="card-text">The File Watchdog page monitors and records any changes
+                                        occurring in a specified file path. By tracking file changes, you can instantly
+                                        detect unauthorized access or modifications and take necessary actions. The file
+                                        path can be easily updated via a POST request, offering flexibility and a
+                                        user-friendly experience.</p>
+                                    <h5 class="card-title">Virus Total</h5>
+                                    <p class="card-text">The Virus Total page allows you to investigate potential
+                                        threats using the hash codes of your files. It performs a comprehensive virus
+                                        scan to determine the safety of files and informs you of any possible threats.
+                                        This proactive measure helps you identify and mitigate harmful files before they
+                                        can damage your system.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <script>
-                document.getElementById('selectTurkish').addEventListener('click', function() {
+                document.getElementById('selectTurkish').addEventListener('click', function () {
                     document.getElementById('aboutTextTurkish').classList.remove('d-none');
                     document.getElementById('aboutTextEnglish').classList.add('d-none');
                 });
-            
-                document.getElementById('selectEnglish').addEventListener('click', function() {
+
+                document.getElementById('selectEnglish').addEventListener('click', function () {
                     document.getElementById('aboutTextEnglish').classList.remove('d-none');
                     document.getElementById('aboutTextTurkish').classList.add('d-none');
                 });
             </script>
-            
+
         </div>
         <!-- Content End -->
 
@@ -171,7 +264,7 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
+    <script src="../public/lib/chart/chart.min.js"></script>
     <script src="../public/lib/easing/easing.min.js"></script>
     <script src="../public/lib/waypoints/waypoints.min.js"></script>
     <script src="../public/lib/owlcarousel/owl.carousel.min.js"></script>

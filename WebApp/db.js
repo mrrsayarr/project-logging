@@ -59,7 +59,7 @@ const readDataFromTable = function(tableName, callback) {
     query = `SELECT ${tableName}.*, eventdescription.Description 
         FROM ${tableName} 
         LEFT JOIN eventdescription ON ${tableName}.EventID = eventdescription.EventID 
-        ORDER BY ${tableName}.PredictedValue ASC`;
+        ORDER BY ${tableName}.PredictedValue DESC`;
     } else {
         // Diğer tablolar için basit bir SELECT sorgusu kullanılır
         query = `SELECT * FROM ${tableName}`;

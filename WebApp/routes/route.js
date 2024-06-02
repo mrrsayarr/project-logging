@@ -14,10 +14,29 @@ const { exec } = require('child_process');
 
 // Rotaları burda yaz
 
-router.get('/', function(req, res, next) {
-  db.getLastTenEvents(function(events) { // db.getLastTenEvents fonksiyonunu kullanın
-    res.render('index', { events: events });
-  });
+router.get('/', function(req, res) {
+  try {
+    db.readDataFromTable('IpLogs', function(err, data) {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+      } else {
+        // 'events' veritabanından alınan veriyi temsil ediyorsa, bu veriyi almak için bir veritabanı sorgusu yapmanız gerekiyor
+        db.readDataFromTable('Events', function(err, events) {
+          if (err) {
+            console.error(err);
+            res.status(500).send('Server Error');
+          } else {
+            // 'index' görünümüne 'IpLogs', 'isGlobalIP' ve 'events' değişkenlerini gönder
+            res.render('index', { IpLogs: data, isGlobalIP: isGlobalIP, events: events });
+          }
+        });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
 
 //----------------------------------------------
@@ -83,43 +102,52 @@ router.get('/eventlog', function(req, res) {
   }
 });
 
-// IpLogs 
-router.get('/network', function(req, res) {
-  function isGlobalIP(ip) {
-    const parts = ip.split('.');
-    if (parts.length !== 4) {
-      // Not a valid IP address
-      return false;
-    }
-
-    if (parts[0] === '10') {
-      return false;
-    }
-
-    if (parts[0] === '172' && parts[1] >= 16 && parts[1] <= 31) {
-      return false;
-    }
-
-    if (parts[0] === '192' && parts[1] === '168') {
-      return false;
-    }
-
-    if (parts[0] === '127' && parts[1] === '0' && parts[2] === '0' && parts[3] === '1') {
-      // Localhost IP address
-      return false;
-    }
-
-    // Assume any other IP is a global IP
-    return true;
+// isGlobalIP fonksiyonunu router.get('/network', ...) dışında tanımlayın
+function isGlobalIP(ip) {
+  const parts = ip.split('.');
+  if (parts.length !== 4) {
+    // Not a valid IP address
+    return false;
   }
 
+  if (parts[0] === '10') {
+    return false;
+  }
+
+  if (parts[0] === '172' && parts[1] >= 16 && parts[1] <= 31) {
+    return false;
+  }
+
+  if (parts[0] === '192' && parts[1] === '168') {
+    return false;
+  }
+
+  if (parts[0] === '127' && parts[1] === '0' && parts[2] === '0' && parts[3] === '1') {
+    // Localhost IP address
+    return false;
+  }
+
+  // Assume any other IP is a global IP
+  return true;
+}
+
+router.get('/network', function(req, res) {
   try {
     db.readDataFromTable('IpLogs', function(err, data) {
       if (err) {
         console.error(err);
         res.status(500).send('Server Error');
       } else {
-        res.render('network', { IpLogs: data, isGlobalIP: isGlobalIP }); // 'IpLogs' ve 'isGlobalIP' değişkenleri burada tanımlanır
+        // 'events' veritabanından alınan veriyi temsil ediyorsa, bu veriyi almak için bir veritabanı sorgusu yapmanız gerekiyor
+        db.readDataFromTable('Events', function(err, events) {
+          if (err) {
+            console.error(err);
+            res.status(500).send('Server Error');
+          } else {
+            // 'index' görünümüne 'IpLogs', 'isGlobalIP' ve 'events' değişkenlerini gönder
+            res.render('network', { IpLogs: data, isGlobalIP: isGlobalIP, events: events });
+          }
+        });
       }
     });
   } catch (err) {
@@ -235,9 +263,7 @@ router.get('/about', function(req, res) {
 router.get('/databreach', async (req, res) => {
   let data = null;
   let error = null;
-  console.log('ROUTER');
   if (req.query.email) {
-    console.log('IF');
     try {
       const response = await axios.get(`https://haveibeenpwned.com/api/v3/breachedaccount/${req.query.email}`, {
         headers: {

@@ -180,7 +180,6 @@
                             <th scope="col">Process</th>
                             <th scope="col">Protocol</th>
                             <th scope="col">StartTime</th>
-                            <th scope="col">CommunicationProtocol</th>
                             <th scope="col">LocalIP</th>
                             <th scope="col">LocalPort</th>
                             <th scope="col">RemoteIP</th>
@@ -201,14 +200,12 @@
                                     <td>
                                         <%= log.Process %>
                                     </td>
-                                    <td>
+                                    <td style="display: flex; justify-content: space-between;">
                                         <%= log.Protocol %>
+                                        <button class="btn btn-danger" style="border-radius: 20%;" onclick="alert(getProtocolDescription('<%= log.Protocol %>'))">?</button>
                                     </td>
                                     <td>
                                         <%= log.StartTime %>
-                                    </td>
-                                    <td>
-                                        <%= log.CommunicationProtocol %>
                                     </td>
                                     <td>
                                         <%= log.LocalIP %>
@@ -273,6 +270,13 @@
                                                 <button type="button" class="btn btn-light"
                                                     data-bs-dismiss="modal">Close</button>
                                             </div>
+                                            <div class="p-3 bg-dark text-white">
+                                                <small>
+                                                    <strong>ICMP (Internet Control Message Protocol):</strong> Used to send error messages and operational information between network devices. / Ağ cihazları arasında hata mesajları ve operasyonel bilgileri iletmek için kullanılır.<br>
+                                                    <strong>UDP (User Datagram Protocol):</strong> Provides fast and connectionless communication, but does not guarantee that the transmitted data is correctly received. / Hızlı ve bağlantısız bir iletişim sağlar, ancak iletilen verinin doğru bir şekilde ulaştığını garantilemez.<br>
+                                                    <strong>TCP (Transmission Control Protocol):</strong> Manages data transmission over the Internet and guarantees that the data is correctly received. / İnternet üzerinde veri iletimini yönetir ve verinin doğru bir şekilde ulaştığını garantiler.
+                                                </small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -280,6 +284,45 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Protocol</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ICMP</td>
+                            <td><button class="btn btn-info" onclick="alert(getProtocolDescription('ICMP'))">?</button></td>
+                        </tr>
+                        <tr>
+                            <td>UDP</td>
+                            <td><button class="btn btn-info" onclick="alert(getProtocolDescription('UDP'))">?</button></td>
+                        </tr>
+                        <tr>
+                            <td>TCP</td>
+                            <td><button class="btn btn-info" onclick="alert(getProtocolDescription('TCP'))">?</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <script>
+                function getProtocolDescription(protocol) {
+                    switch (protocol) {
+                        case 'ICMP':
+                            return 'ICMP (Internet Control Message Protocol): Used to send error messages and operational information between network devices.  / Ağ cihazları arasında hata mesajları ve operasyonel bilgileri iletmek için kullanılır.';
+                        case 'UDP':
+                            return 'UDP (User Datagram Protocol): Provides fast and connectionless communication, but does not guarantee that the transmitted data is correctly received. / Hızlı ve bağlantısız bir iletişim sağlar, ancak iletilen verinin doğru bir şekilde ulaştığını garantilemez.';
+                        case 'TCP':
+                            return 'TCP (Transmission Control Protocol): Manages data transmission over the Internet and guarantees that the data is correctly received. / İnternet üzerinde veri iletimini yönetir ve verinin doğru bir şekilde ulaştığını garantiler.';
+                        default:
+                            return 'Unknown protocol: ' + protocol;
+                    }
+                }
+            </script>
 
             <!-- For Modal -->
             <script>

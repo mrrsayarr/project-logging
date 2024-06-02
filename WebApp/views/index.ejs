@@ -38,6 +38,15 @@
         color: #fff;
         z-index: 1;
     }
+
+    .blink_me {
+        animation: blinker 1s linear infinite;
+        color: red;
+    }
+
+    @keyframes blinker {
+        50% { opacity: 0; }
+    }
 </style>
 <body>
     <div class="container-fluid position-relative d-flex p-0">
@@ -244,11 +253,16 @@
                                             <th scope="col">EventID</th>
                                             <th scope="col">PredictedValue</th>
                                             <th scope="col">Event Description</th>
-                                            <!-- <th scope="col">Details</th> -->
+                                            <th scope="col">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% events.forEach(function(event, index) { %>
+                                        <% 
+                                        let filteredEvents = events.filter(event => event.PredictedValue > 0);
+                                        for(let i = 0; i < Math.min(10, filteredEvents.length); i++) { 
+                                            let event = filteredEvents[i];
+                                            let index = i; 
+                                        %>
                                             <tr>
                                                 <td><%= event.EventID %></td>
                                                 <td>
@@ -261,57 +275,112 @@
                                                         <span class="badge bg-danger">Danger</span>
                                                     <% } %>
                                                 </td>
-                                                <td><%= event.Description %></td>
-                                                <!-- <td>
+                                                <td style="max-width: 1000px; word-wrap: break-word;"><%= event.Description ? event.Description : 'Unknown' %></td>
+                                                <td>
                                                     <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#details-<%= index + 1 %>">Details</button>
-                                                </td> -->
-                                            </tr>
-
-                                            <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content bg-secondary text-white">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="details-<%= index + 1 %>-label">Event Details</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div style="overflow: auto; max-height: 400px;">  
-                                                                <p>EventID: <%= event.EventID %></p>
-                                                                <p>PredictedValue: <%= event.PredictedValue %></p>
-                                                                <p>Description: <%= event.Description %></p>
-                                                                <p>SourceName: <%= event.SourceName %></p>
-                                                                <p>Status: <%= event.Level %></p>
-                                                                <p>Channel: <%= event.Channel %></p>
-                                                                <p>Message:
-                                                                    <pre>
-                                                                        <% 
-                                                                        try {
-                                                                            var messageObj = JSON.parse(event.Message);
-                                                                            %><%= JSON.stringify(messageObj, null, 2) %><%
-                                                                        } catch (error) {
-                                                                            %><%= event.Message %><%
-                                                                        }
-                                                                        %>
-                                                                    </pre>
-                                                                </p>
+                                                    <div class="modal fade" id="details-<%= index + 1 %>" tabindex="-1" aria-labelledby="details-<%= index + 1 %>-label" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content bg-secondary text-white">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="details-<%= index + 1 %>-label" style="padding: 10px;">Event Details</h5>
+                                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div style="overflow: auto; max-height: 400px; font-size: 1.2em;">  
+                                                                        <p><strong>EventID:</strong> <%= event.EventID %></p>
+                                                                        <p><strong>PredictedValue:</strong> <%= event.PredictedValue %></p>
+                                                                        <p><strong>Description:</strong> <%= event.Description %></p>
+                                                                        <p><strong>SourceName:</strong> <%= event.SourceName %></p>
+                                                                        <p><strong>Status:</strong> <%= event.Level %></p>
+                                                                        <p><strong>Channel:</strong> <%= event.Channel %></p>
+                                                                        <p><strong>Message:</strong>
+                                                                            <pre>
+                                                                                <% 
+                                                                                try {
+                                                                                    var messageObj = JSON.parse(event.Message);
+                                                                                    %><%= JSON.stringify(messageObj, null, 2) %><%
+                                                                                } catch (error) {
+                                                                                    %><%= event.Message %><%
+                                                                                }
+                                                                                %>
+                                                                            </pre>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="font-size: 1.2em;">Close</button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        <% }); %>
+                                                </td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
-
                       
+                    <div class="container-fluid">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Recent Ip Logs</h6>
+                                <!-- <div class="form-group">
+                                    <label for="limit">Number of logs to display:</label>
+                                    <input type="number" class="form-control" id="limit" name="limit" min="1" value="10">
+                                </div>
+                                <button class="btn btn-primary" onclick="updateLimit()">Update</button> -->
+                                <a href="/network">Show All With Details</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table text-start">
+                                    <thead>
+                                        <tr class="text-white">
+                                            <th scope="col">PID</th>
+                                            <th scope="col">Process</th>
+                                            <th scope="col">Protocol</th>
+                                            <th scope="col">StartTime</th>
+                                            <th scope="col">CommunicationProtocol</th>
+                                            <th scope="col">LocalIP</th>
+                                            <th scope="col">LocalPort</th>
+                                            <th scope="col">RemoteIP</th>
+                                            <th scope="col">RemotePort</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(let i = 0; i < Math.min(10, IpLogs.length); i++) { 
+                                            let log = IpLogs[i]; %>
+                                            <tr>
+                                                <td><%= log.PID %></td>
+                                                <td><%= log.Process %></td>
+                                                <td><%= log.Protocol %></td>
+                                                <td><%= log.StartTime %></td>
+                                                <td><%= log.CommunicationProtocol %></td>
+                                                <td><%= log.LocalIP %>
+                                                    <% if (isGlobalIP(log.LocalIP)) { %>
+                                                        <span class="blink_me">•</span>
+                                                    <% } %>
+                                                </td>
+                                                <td><%= log.LocalPort %></td>
+                                                <td><%= log.RemoteIP %>
+                                                    <% if (isGlobalIP(log.RemoteIP)) { %>
+                                                        <span class="blink_me">•</span>
+                                                    <% } %>
+                                                </td>
+                                                <td><%= log.RemotePort %></td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="font-style: italic; text-align: left;">
+                                <strong>ICMP (Internet Control Message Protocol):</strong> Used to send error messages and operational information between network devices. / Ağ cihazları arasında hata mesajları ve operasyonel bilgileri iletmek için kullanılır.<br>
+                                <strong>UDP (User Datagram Protocol):</strong> Provides fast and connectionless communication, but does not guarantee that the transmitted data is correctly received. / Hızlı ve bağlantısız bir iletişim sağlar, ancak iletilen verinin doğru bir şekilde ulaştığını garantilemez.<br>
+                                <strong>TCP (Transmission Control Protocol):</strong> Manages data transmission over the Internet and guarantees that the data is correctly received. / İnternet üzerinde veri iletimini yönetir ve verinin doğru bir şekilde ulaştığını garantiler.
+                            </p>
+                        </div>
+                    </div>
                     <!-- <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -333,7 +402,47 @@
                 </div>
             </div>
             <!-- Sales Chart End -->
+            <script>
+                $('#details-modal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var log = button.data('log') // Extract info from data-* attributes
+                // Update the modal's content.
+                var modal = $(this)
+                modal.find('.modal-title').text('IP Logs Details')
+                modal.find('.pid').text(log.PID)
+                modal.find('.process').text(log.Process)
+                // ... repeat for all fields
+                })
 
+                window.onload = function() {
+                    var limit = document.getElementById('limit').value;
+                    //var logs = <%= JSON.stringify(IpLogs) %>;
+                    var output = '';
+                    for(let i = 0; i < Math.min(limit, logs.length); i++) {
+                        var log = logs[i];
+                        // Generate your table rows and modals here, using `log` and `i`
+                        // Add them to the `output` string
+                    }
+                    // Replace the contents of your table body with the new output
+                    document.getElementById('tableBody').innerHTML = output;
+                }
+            </script>
+
+            <script>
+                document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
+                    element.addEventListener('click', function () {
+                        var target = document.querySelector(element.getAttribute('data-bs-target'));
+                        if (target.classList.contains('show')) {
+                            target.classList.remove('show');
+                        } else {
+                            document.querySelectorAll('.modal.show').forEach(function (modal) {
+                                modal.classList.remove('show');
+                            });
+                            target.classList.add('show');
+                        }
+                    });
+                });
+            </script>
 
             <!-- Widgets Start -->
             <div class="container-fluid pt-4 px-4">
@@ -389,7 +498,7 @@
                     </div>
                     <!-- Calendar Finish -->
                     
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl-3 justify-content-between">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
                             <div class="ms-3">

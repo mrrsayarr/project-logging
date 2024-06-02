@@ -41,6 +41,9 @@
         .table-bordered td, .table-bordered th {
             border: 1px solid #dee2e628; /* Kenarlık ekleniyor */
         }
+        .wrap-text {
+            word-wrap: break-word;
+        }
     </style>
 </head>
 
@@ -236,7 +239,7 @@
                                     <span class="badge bg-danger">Danger</span>
                                 <% } %>
                             </td>
-                            <td><%= event.Description ? event.Description : 'Unknown' %></td>
+                            <td style="max-width: 1000px; word-wrap: break-word;"><%= event.Description ? event.Description : 'Unknown' %></td>
                             <!-- <td><%= event.Level %></td> -->
                             <!-- <td><%= event.Channel %></td> -->
                             <td>
@@ -262,12 +265,12 @@
                                         <% } else { %>
                                           <span class="badge bg-danger">Danger</span>
                                         <% } %>
-                                    <p>Description: <%= event.Description ? event.Description : 'Unknown' %></p>
+                                    <p style="word-wrap: break-word;">Description: <%= event.Description ? event.Description : 'Unknown' %></p>
                                     <p>SourceName: <%= event.SourceName ? event.SourceName : 'Unknown' %></p>
                                     <p>Time: <%= event.TimeGenerated ? event.TimeGenerated : 'Unknown' %></p>
                                     <p>Status: <%= event.Level ? event.Level : 'Unknown' %></p>
                                     <p>Channel: <%= event.Channel ? event.Channel : 'Unknown' %></p>
-                                    <p>Message: <%- event.Message ? event.Message.replace(/\r\n/g, '<br>') : 'Unknown' %></p>
+                                    <p class="wrap-text">Message: <%- event.Message ? event.Message.replace(/\r\n/g, '<br>') : 'Unknown' %></p>
                                 </div>
                             </div>  
                             <div class="modal-footer">
