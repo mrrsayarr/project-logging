@@ -1,3 +1,6 @@
+![image](https://github.com/mrrsayarr/project-logging/assets/64076325/38cf7aaa-9c83-45d8-9625-0b3050d3e1bc)
+
+
 # Saldırı Tespit ve Analiz Uygulaması (Project-Logging)
 
 Project-Logging, siber güvenlik etkinliklerini merkezi bir yerden yönetmenizi sağlayan kapsamlı bir izleme ve analiz platformudur. Bu proje, çeşitli modüller aracılığıyla sistem güvenliğini sağlamak ve olası tehditleri tespit etmek amacıyla geliştirilmiştir.
